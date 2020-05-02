@@ -1,13 +1,17 @@
 const { app, server, io } = require ('./app')
 const Filter = require('bad-words')
 const { generateMessage, generateLocationMessage } = require ('./utils/messages')
-const { addUser, removeUser, getUser, getUsersInRoom } = require('./utils/users')
+const { addUser, removeUser, getUser, getUsersInRoom, getRoomsList } = require('./utils/users')
 
 const port = process.env.PORT || 3000
 
 io.on('connection', (socket) => {
   console.log('New Web Socket connection')
-    // Listen for join
+  // Get list of Rooms
+  socket.on('roomInputKeyUp', () => {
+    socket.emit('roomsList', getRoomsList())
+  })
+  // Listen for join
   socket.on('join', ({ username, room }, callback) => {
     // Add user, check for validation
     const { error, user } = addUser({ id: socket.id, username, room })

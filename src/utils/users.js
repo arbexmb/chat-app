@@ -42,9 +42,21 @@ const getUsersInRoom = (room) => {
   return users.filter((user) => user.room === room)
 }
 
+const getRoomsList = () => {
+  const rooms = []
+  users.filter((user) => {
+    const index = rooms.indexOf(user.room)
+    if(index === -1) {
+      rooms.push(user.room)
+    }
+  })
+  return rooms
+}
+
 module.exports = {
   addUser,
   removeUser,
   getUser,
-  getUsersInRoom
+  getUsersInRoom,
+  getRoomsList
 }
